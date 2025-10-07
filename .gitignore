@@ -1,0 +1,23 @@
+# Build artifacts
+obj/
+backtester
+generate_data
+
+# Data files
+data/tick_data.csv
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Compiled objects
+*.o
+*.out
+*.exe

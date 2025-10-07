@@ -1,0 +1,138 @@
+# QuantFlow
+
+A high-performance C++17 statistical arbitrage backtesting engine for pairs trading strategies. Processes tick-level market data using Z-score mean reversion signals to identify and execute profitable trading opportunities with sub-microsecond latency.
+
+## Features
+
+- **High Performance**: Optimized for speed with `-O3` compilation, minimal heap allocations
+- **Event-Driven Architecture**: Processes tick data in real-time simulation
+- **Statistical Arbitrage**: Z-score based mean-reverting spread strategy
+- **Zero Dependencies**: Uses only C++17 Standard Library
+- **Comprehensive Analytics**: Sharpe ratio, max drawdown, and PnL tracking
+
+## Technical Specifications
+
+- **Language**: C++17
+- **Compiler**: g++ or clang++
+- **Build Flags**: `-std=c++17 -Wall -Wextra -Wpedantic -O3`
+- **Performance**: Capable of processing millions of ticks per second
+
+## Project Structure
+
+```
+├── src/
+│   ├── TickData.h              # Tick data structure
+│   ├── DataReader.h/cpp        # CSV data reader
+│   ├── SignalGenerator.h/cpp   # Z-score trading signals
+│   ├── PortfolioManager.h/cpp  # Position and PnL management
+│   ├── PerformanceCalculator.h/cpp # Analytics and reporting
+│   └── main.cpp                # Main backtester application
+├── data/
+│   └── tick_data.csv           # Market tick data (generated)
+├── Makefile                    # Build system
+└── generate_data.cpp           # Synthetic data generator
+```
+
+## Building
+
+```bash
+# Build the backtester
+make
+
+# Clean build artifacts
+make clean
+```
+
+## Usage
+
+### 1. Generate Test Data
+
+```bash
+# Compile and run data generator
+g++ -std=c++17 -O3 generate_data.cpp -o generate_data
+./generate_data
+```
+
+This creates `data/tick_data.csv` with 200,000 ticks of synthetic mean-reverting price data.
+
+### 2. Run Backtester
+
+```bash
+./backtester
+```
+
+### 3. Configure Strategy Parameters
+
+Edit `src/main.cpp` to adjust:
+
+```cpp
+const int lookback = 200;       // Z-score lookback window
+const double entry_z = 1.0;     // Entry threshold (std devs)
+const double exit_z = 0.2;      // Exit threshold (std devs)
+const double initial_cash = 100000.0;  // Starting capital
+```
+
+**Parameter Guidelines:**
+- **Conservative**: `lookback=1000, entry_z=2.0, exit_z=0.5`
+- **Moderate**: `lookback=500, entry_z=1.5, exit_z=0.3`
+- **Aggressive**: `lookback=200, entry_z=1.0, exit_z=0.2`
+- **High-Frequency**: `lookback=50, entry_z=0.5, exit_z=0.1`
+
+## Input Data Format
+
+CSV file with columns: `timestamp,symbol,price,volume`
+
+```csv
+1665158400000000001,SYM_A,100.01,50
+1665158400000000002,SYM_B,120.51,30
+```
+
+- **Timestamp**: Nanoseconds since epoch (uint64_t)
+- **Symbol**: String (e.g., "SYM_A", "SYM_B")
+- **Price**: Double
+- **Volume**: uint64_t
+
+## Example Output
+
+```
+========== Trade Statistics ==========
+Total Trades:     4139
+Long Entries:     1019
+Short Entries:    1051
+Position Closes:  2069
+======================================
+
+========== Performance Report ==========
+Initial Capital:  $100000.00
+Final Capital:    $100101.24
+Total Return:     0.10%
+Sharpe Ratio:     0.1395
+Max Drawdown:     0.01%
+========================================
+
+Backtest finished.
+```
+
+## Strategy Logic
+
+1. **Signal Generation**: Calculates Z-score of price spread between two symbols
+2. **Entry Rules**:
+   - Z-score > `entry_z` → GO_SHORT (sell A, buy B)
+   - Z-score < `-entry_z` → GO_LONG (buy A, sell B)
+3. **Exit Rules**:
+   - |Z-score| < `exit_z` → GO_FLAT (close position)
+
+## Performance Optimization
+
+- Pre-allocated vectors to avoid heap allocations
+- Efficient CSV parsing with minimal string operations
+- O(1) price lookups using `std::map`
+- Compiled with `-O3` optimization flag
+
+## License
+
+MIT License - See LICENSE file for details
+
+## Author
+
+Jaimin Patel
