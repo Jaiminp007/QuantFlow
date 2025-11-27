@@ -57,6 +57,14 @@ make clean
 
 ## Usage
 
+### 0. Fetch Real Market Data (optional)
+
+```bash
+python fetch_real_data.py
+```
+
+Configure `fetch_real_data.py` with your Twelve Data `API_KEY`, desired `SYMBOL_1`/`SYMBOL_2` (e.g., `KO` and `PEP`), `INTERVAL`, and `OUTPUT_SIZE`. The script maps the assets to `SYM_A`/`SYM_B`, sorts ticks chronologically, and writes a backtester-ready CSV to `data/tick_data.csv`.
+
 ### 1. Generate Test Data
 
 ```bash
@@ -108,22 +116,24 @@ CSV file with columns: `timestamp,symbol,price,volume`
 
 ```
 ========== Trade Statistics ==========
-Total Trades:     4139
-Long Entries:     1019
-Short Entries:    1051
-Position Closes:  2069
+Total Trades:     56
+Long Entries:     15
+Short Entries:    13
+Position Closes:  28
 ======================================
 
 ========== Performance Report ==========
 Initial Capital:  $100000.00
-Final Capital:    $100101.24
-Total Return:     0.10%
-Sharpe Ratio:     0.1395
-Max Drawdown:     0.01%
+Final Capital:    $293653.01
+Total Return:     193.65%
+Sharpe Ratio:     0.7711
+Max Drawdown:     0.20%
 ========================================
 
 Backtest finished.
 ```
+
+Results above were generated using Coke (`KO`) vs Pepsi (`PEP`) tick data retrieved through `fetch_real_data.py`.
 
 ## Strategy Logic
 
