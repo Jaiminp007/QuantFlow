@@ -5,8 +5,8 @@ import time
 
 # ================= CONFIGURATION =================
 API_KEY = "ea26437639584f8fac81dd87583664aa"  # <--- PASTE YOUR KEY HERE
-SYMBOL_1 = "PEP"   # Asset A (e.g., Pepsi) -> Will become SYM_A
-SYMBOL_2 = "PG"    # Asset B (e.g., Coca-Cola) -> Will become SYM_B
+SYMBOL_1 = "KO"   # Asset A (e.g., Pepsi) -> Will become SYM_A
+SYMBOL_2 = "PEP"    # Asset B (e.g., Coca-Cola) -> Will become SYM_B
 INTERVAL = "1min"  # 1min, 5min, 1h, 1day
 OUTPUT_SIZE = 5000 # Max 5000 for free tier
 OUTPUT_FILE = "data/tick_data.csv"

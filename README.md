@@ -17,6 +17,18 @@ A high-performance C++17 statistical arbitrage backtesting engine for pairs trad
 - **Build Flags**: `-std=c++17 -Wall -Wextra -Wpedantic -O3`
 - **Performance**: Capable of processing millions of ticks per second
 
+## System Architecture
+
+The system follows a high-frequency event loop architecture optimized for low-latency simulation:
+
+![QuantFlow Architecture](architecture.png)
+
+1.  **Data Creation & Storage**: Synthetic tick data is generated or loaded from CSV.
+2.  **Initialization**: Vectors are pre-allocated and strategy parameters are configured.
+3.  **The Event Loop**: The engine iterates through time-series data tick-by-tick.
+4.  **Execution**: Signals are generated (Z-score), and portfolio orders are executed immediately based on logic.
+5.  **The Result**: Performance metrics (Sharpe, PnL) are calculated upon loop completion.
+
 ## Project Structure
 
 ```
