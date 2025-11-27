@@ -6,21 +6,23 @@ PortfolioManager::PortfolioManager(double initial_cash)
 }
 
 void PortfolioManager::execute_trade(Signal signal, double price_a, double price_b) {
+    int quantity = 100;
+
     switch (signal) {
         case Signal::GO_LONG:
             // Buy A, Sell B
-            position_a_ += 1;
-            position_b_ -= 1;
-            cash_ -= price_a;
-            cash_ += price_b;
+            position_a_ += quantity;
+            position_b_ -= quantity;
+            cash_ -= price_a * quantity;
+            cash_ += price_b * quantity;
             break;
 
         case Signal::GO_SHORT:
             // Sell A, Buy B
-            position_a_ -= 1;
-            position_b_ += 1;
-            cash_ += price_a;
-            cash_ -= price_b;
+            position_a_ -= quantity;
+            position_b_ += quantity;
+            cash_ -= price_a * quantity;
+            cash_ += price_b * quantity;
             break;
 
         case Signal::GO_FLAT:
